@@ -20,6 +20,7 @@
 
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import logging
+from portunhol.portunhol import conbertir_frasses_cumplietas
 
 # Enable logging
 logging.basicConfig(
@@ -34,71 +35,12 @@ def start(bot, update):
     pass
 
 def help(bot, update):
-    mensagem = 'Envie uma mensagem e o Miguelito a repete para você!'
+    mensagem = 'Envie uma mensagem, que o Miguelito a repete para você!'
     bot.sendMessage(update.message.chat_id, text=mensagem)
 
 def echo(bot, update):
-    words = {
-        'é': 'es',
-        'um': 'uno',
-        'uma': 'una',
-        'eu': 'yo',
-        'o': 'lo',
-        'a': 'la',
-        'e': 'y',
-        'há': 'hay',
-        'não': 'no',
-        'ou': 'o',
-        'no': 'en lo',
-        'na': 'en la',
-        'da': 'de la',
-        'do': 'del',
-        'você': 'usted',
-        'nada': 'nadie',
-        'aberto': 'abierto'
-    }
-
-    end_words = {
-        'ção': 'cion',
-        'ções': 'ciones',
-        'ino': 'ito',
-        'inha': 'ita',
-        'ém': 'ien',
-        'ou': 'oy',
-        'ola': 'uela',
-        'oda': 'ueda',
-        'são': 'sión',
-        'm': 'n',
-        'mento': 'miento'
-    }
-
-    inside_words = {
-        'ça': 'sa',
-        'ço': 'cio',
-        'nh': 'ñ',
-        'lh': 'll',
-        'qua': 'cua',
-        'que': 'quie'
-    }
-
-    def to_portunhol(word):
-        for key in words:
-            if word == key:
-                word = words[key]
-        for key in end_words:
-            if word.endswith(key):
-                word = word.replace(key, end_words[key])
-        for key in inside_words:
-            if word.find(key):
-                word = word.replace(key, inside_words[key])
-        return word
-
-    final = ''
-    for word in update.message.text.split(' '):
-        word = word.lower()
-        final += to_portunhol(word) + ' '
-    final += '\n'
-
+    texto = update.message.text
+    final = conbertir_frasses_cumplietas(texto)
     bot.sendMessage(update.message.chat_id, text=final)
 
 def error(bot, update, error):
@@ -106,7 +48,7 @@ def error(bot, update, error):
 
 def main():
     # Create the EventHandler and pass it your bot's token.
-    updater = Updater(<TOKEN>)
+    updater = Updater('180259485:AAH4hNkCqqc_2nHVpp2FXW0A1NoIc8BLuU8')
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
