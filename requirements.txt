@@ -1,0 +1,2 @@
+portunhol==0.2
+python-telegram-bot==4.2.0
